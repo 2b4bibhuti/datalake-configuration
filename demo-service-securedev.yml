@@ -1,0 +1,54 @@
+spring:
+  application:
+    name: demo-service
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: http://localhost:8080/auth/realms/gateway
+  
+server:
+  port: 8701
+  ssl:
+    enabled: true
+    client-auth: want
+    key-store: /home/centos/datalake/apps/${spring.application.name}/config/customer-demo-service.p12
+    key-store-password: ENC(3CtbmUddvrwHLKQ8BXcfDiYTFxwbMEkh)
+    key-store-type: PKCS12
+    key-alias: mykey  
+    trust-store: /home/centos/datalake/apps/truststore/truststore.jks
+    trust-store-password: ENC(3CtbmUddvrwHLKQ8BXcfDiYTFxwbMEkh)
+
+eureka:  
+  instance:    
+    hostname: localhost
+    preferIpAddress: false   
+    nonSecurePortEnabled: false
+    securePortEnabled: true
+    securePort: ${server.port}
+    statusPageUrl: https://${eureka.instance.hostname}:${server.port}/actuator/info
+    healthCheckUrl: https://${eureka.instance.hostname}:${server.port}/actuator/health
+
+  server:
+    hostname: localhost 
+  client:    
+    serviceUrl:
+      defaultZone: ${EUREKA_URI:https://${eureka.server.hostname}:5443/eureka}    
+    registryFetchIntervalSeconds: 5 
+    
+logging:
+   config: /home/centos/datalake/apps/${spring.application.name}/config/log4j2-spring.properties 
+   
+   
+jasypt:
+  encryptor:
+    iv-generator-classname: org.jasypt.iv.NoIvGenerator
+    algorithm: PBEWithMD5AndDES
+    
+resilience4j:
+    retry: 
+     instances: 
+        endpoint1: 
+          maxRetryAttempts: 5 
+user : 
+ role: Manager 
