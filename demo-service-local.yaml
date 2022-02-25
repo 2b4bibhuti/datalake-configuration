@@ -51,4 +51,4 @@ resilience4j:
         endpoint1: 
           maxRetryAttempts: 5 
 user : 
- role: Developer
+ role: Tester
