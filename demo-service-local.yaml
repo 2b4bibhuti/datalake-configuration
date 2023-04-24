@@ -1,6 +1,12 @@
 spring:
   application:
     name: demo-service
+  security:
+    oauth2:
+      resourceserver: 
+       jwt:
+        jwk-set-uri: https://ping.spartansdo.com/pf/JWKS
+        issuer-uri:  https://ping.spartansdo.com  
   
   
 server:
@@ -32,13 +38,7 @@ eureka:
       defaultZone: ${EUREKA_URI:https://${eureka.server.hostname}:8443/eureka}    
     registryFetchIntervalSeconds: 500
 
-  server:
-    hostname: localhost 
-  client:    
-    serviceUrl:
-      defaultZone: ${EUREKA_URI:https://${eureka.server.hostname}:5443/eureka}    
-    registryFetchIntervalSeconds: 5 
-    
+     
 logging:
    config: /home/centos/datalake/apps/${spring.application.name}/config/log4j2-spring.properties 
    
