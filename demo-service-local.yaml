@@ -1,11 +1,7 @@
 spring:
   application:
     name: demo-service
-  security:
-    oauth2:
-      resourceserver:
-        jwt:
-          issuer-uri: http://localhost:8080/auth/realms/gateway
+  
   
 server:
   port: 8701
@@ -21,13 +17,20 @@ server:
 
 eureka:  
   instance:    
-    hostname: localhost
-    preferIpAddress: false   
+    hostname: dlake-dev-green-discovery-d91566fa02a347b6.elb.us-east-1.amazonaws.com
+    preferIpAddress: true  
     nonSecurePortEnabled: false
     securePortEnabled: true
     securePort: ${server.port}
     statusPageUrl: https://${eureka.instance.hostname}:${server.port}/actuator/info
     healthCheckUrl: https://${eureka.instance.hostname}:${server.port}/actuator/health
+    metadataMap.zone: us-east-1a
+  server:
+    hostname: ${eureka.instance.hostname}
+  client:    
+    serviceUrl:
+      defaultZone: ${EUREKA_URI:https://${eureka.server.hostname}:8443/eureka}    
+    registryFetchIntervalSeconds: 500
 
   server:
     hostname: localhost 
